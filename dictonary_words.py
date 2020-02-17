@@ -10,10 +10,8 @@ x = ""
 def random_words(num):
     x = ""
     for i in range(num):
-        x += random.choice(read_data.split())
-        x += " "
+        x += f'{random.choice(read_data.split())} '
     print(x)
-
 
 random_words(5)
 

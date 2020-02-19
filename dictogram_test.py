@@ -97,6 +97,8 @@ class DictogramTest(unittest.TestCase):
             # Verify word's sampled frequency is close to observed frequency
             lower_bound = observed_freq * 0.9  # 10% below = 90% = 0.9
             upper_bound = observed_freq * 1.1  # 10% above = 110% = 1.1
+            assert lower_bound <= sampled_freq <= upper_bound
+
 
 if __name__ == '__main__':
     unittest.main()

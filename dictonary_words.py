@@ -11,7 +11,5 @@ def random_words(num):
     x = ""
     for i in range(num):
         x += f'{random.choice(read_data.split())} '
-    print(x)
-
-random_words(5)
+    return x
 

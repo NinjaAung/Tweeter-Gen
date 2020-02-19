@@ -18,30 +18,36 @@ class Dictogram(dict):
 
     def add_count(self, word, count=1):
         """Increase frequency count of given word by given count amount."""
-
+        self[word] = self.get(word , 0) + count
+        self.tokens += count
+        self.types = len(self)
 
     def frequency(self, word):
         """Return frequency count of given word, or 0 if word is not found."""
-        
-
+        return self.get(word, 0)
 
     def sample(self):
         """Return a word from this histogram, randomly sampled by weighting
         each word's probability of being chosen by its observed frequency."""
-        # TODO: Randomly choose a word based on its frequency in this histogram
+        rand_num = random.randint(0, self.tokens)
+        num = 0
+        for key, value in self.items():
+            num += value
+            if num >= rand_num:
+                return key
 
 
 def print_histogram(word_list):
     print()
     print('Histogram:')
-    print('word list: {}'.format(word_list))
+    print(f'word list: {word_list}')
     # Create a dictogram and display its contents
     histogram = Dictogram(word_list)
-    print('dictogram: {}'.format(histogram))
-    print('{} tokens, {} types'.format(histogram.tokens, histogram.types))
+    print(f'dictogram: {histogram}')
+    print(f'{histogram.tokens} tokens, {histogram.types} types')
     for word in word_list[-2:]:
         freq = histogram.frequency(word)
-        print('{!r} occurs {} times'.format(word, freq))
+        print(f'{repr(word)} occurs {freq} times')
     print()
     print_histogram_samples(histogram)
 
@@ -51,7 +57,7 @@ def print_histogram_samples(histogram):
     # Sample the histogram 10,000 times and count frequency of results
     samples_list = [histogram.sample() for _ in range(10000)]
     samples_hist = Dictogram(samples_list)
-    print('samples: {}'.format(samples_hist))
+    print(f'samples: {samples_hist}')
     print()
     print('Sampled frequency and error from observed frequency:')
     header = '| word type | observed freq | sampled freq  |  error  |'
@@ -92,13 +98,13 @@ def main():
         # Test histogram on letters in a word
         word = 'abracadabra'
         print_histogram(list(word))
-        # # Test histogram on words in a classic book title
-        # fish_text = 'one fish two fish red fish blue fish'
-        # print_histogram(fish_text.split())
-        # # Test histogram on words in a long repetitive sentence
-        # woodchuck_text = ('how much wood would a wood chuck chuck'
-        #                   ' if a wood chuck could chuck wood')
-        # print_histogram(woodchuck_text.split())
+        # Test histogram on words in a classic book title
+        fish_text = 'one fish two fish red fish blue fish'
+        print_histogram(fish_text.split())
+        # Test histogram on words in a long repetitive sentence
+        woodchuck_text = ('how much wood would a wood chuck chuck'
+                          ' if a wood chuck could chuck wood')
+        print_histogram(woodchuck_text.split())
 
 
 if __name__ == '__main__':

@@ -51,7 +51,7 @@ class LinkedList(object):
 
     def length(self):
         """Return the length of this linked list by traversing its nodes.
-        TODO: Running time: O(1) Why and under what conditions?"""
+        TODO: Running time: O(1) because it is not dependent on the amount of elemnts"""
         if self.is_empty:
             size = 0
             node = self.head
@@ -65,7 +65,7 @@ class LinkedList(object):
 
     def append(self, item):
         """Insert the given item at the tail of this linked list.
-        TODO: Running time: O(1) Why and under what conditions?"""
+        TODO: Running time: O(1) because it is not dependent on the amount of elemnts """
         self.tail = Node(item)
         node = self.head
         if node is None:
@@ -80,13 +80,32 @@ class LinkedList(object):
 
     def prepend(self, item):
         """Insert the given item at the head of this linked list.
-        TODO: Running time: O(???) Why and under what conditions?"""
-         
+        Running time: O(1) because it is not dependent on the amount of elemnts 
+        """
+        
+        node = Node(item)
+        if self.is_empty():
+            self.head = node
+            self.tail = node
+            self.count += 1
+
+        else:
+            node.next = self.head
+            self.head.previous = node 
+            self.head = node
+            self.count += 1
+    
+    def replace(self, find_item, new_item):
+        """finds and replaces a node with the given arguments."""
+        node = self.find(lambda item: item == find_item)
+        node.data = new_item
+        return node
+        
 
     def find(self, quality):
         """Return an item from this linked list satisfying the given quality.
-        TODO: Best case running time: O(???) Why and under what conditions?
-        TODO: Worst case running time: O(???) Why and under what conditions?"""
+        Best case running time: O(1) if there was =< 3 nodes
+        Worst case running time: O(n) if we were to loop through each element and > 3  """
         node = self.head
 
             while node is not None:
@@ -97,8 +116,8 @@ class LinkedList(object):
 
     def delete(self, item):
         """Delete the given item from this linked list, or raise ValueError.
-        TODO: Best case running time: O(???) Why and under what conditions?
-        TODO: Worst case running time: O(???) Why and under what conditions?"""
+        Best case running time: O(1) if there was =< 3 nodes
+        Worst case running time: O(n) depending on the size of the linked list. if we were to loop through each element and > 3"""
         node = self.head
         prev_node = None
         while node:
@@ -135,7 +154,7 @@ def test_linked_list():
     print(f'length: {ll.length()}')
 
     # Enable this after implementing delete method
-    delete_implemented = True
+    delete_implemented = False
     if delete_implemented:
         print('\nTesting delete:')
         for item in ['B','C','A',] :
@@ -146,6 +165,13 @@ def test_linked_list():
         print(f'head: {ll.head}')
         print(f'tail: {ll.tail}')
         print(f'length: {ll.length()}')
+    prepend = True
+    if prepend:
+        print('\nAppendending before the head')
+        print(f'list: {ll}')
+        ll.prepend('Y')
+        print(f'list: {ll}')
+
 
 if __name__ == '__main__':
     test_linked_list()

@@ -1,7 +1,8 @@
 from dictogram import Dictogram
 from markov import MarkovChain
-
+from flask import request
 from flask import Flask
+
 app = Flask(__name__)
 test = "one fish two fish red fish blue fish"
 
@@ -18,9 +19,8 @@ def send_to():
    <body>
    
       <button onclick="window.location.href = '/histogram';">Histogram Example</button>
-      <button onclick="window.location.href = '/markov';">Markov Chain example</button>
+      <button onclick="window.location.href = '/markov/book.txt';">Markov Chain example</button>
    </body>
-</html>
 '''
 
 
@@ -43,27 +43,25 @@ def randomized_word():
     <br>
     Random words: {random_words}
     <br>
-    <button onclick="window.location.href = '/markov';">Markov Chain example</button>
+    <button onclick="window.location.href = '/markov/book.txt/5';">Markov Chain example</button>
     <button onclick="window.location.href = '/';">Home</button>
     </body>
-    </html>
     '''
 
-@app.route('/markov')
-def randomized_markov():
-    markov_chain = MarkovChain("book.txt")
+@app.route('/markov/<word_list>/<num>')
+def randomized_markov(word_list, num):
+    markov_chain = MarkovChain(word_list)
     return f'''
     <html>
         <head>
             <title> Markov Chain </title>
         </head>
     <body>
-    Generated words: {markov_chain.walk(10)}
+    Generated words: {markov_chain.walk(int(num))}
     </body>
     <br>
     <button onclick="window.location.href = '/histogram';">Histogram</button>
     <button onclick="window.location.href = '/';">Home</button>
-    <\html>
     '''
 
     
